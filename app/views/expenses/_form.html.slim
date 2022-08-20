@@ -1,0 +1,25 @@
+= form_for @expense do |f|
+  - if @expense.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@expense.errors.count, "error")} prohibited this expense from being saved:"
+      ul
+        - @expense.errors.full_messages.each do |message|
+          li = message
+  - @expense.user_expenses.each_with_index do |user_expense, index|
+    a = user_expense.user.name
+    = f.fields_for user_expense do |expense|
+        = expense.number_field :splited_amount, name: "share_amount[#{index}][splited_amount]", id: "name_id_#{index}"
+  .field
+    = f.label :amount
+    br
+    = f.number_field  :amount
+    br
+    = f.label :tax_amount
+    br
+    = f.number_field  :tax_amount
+  .field
+    = f.label :description
+    br
+    = f.text_area :description
+  .actions
+    = f.button "Save changes", class: " btn btn-primary"

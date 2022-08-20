@@ -1,0 +1,27 @@
+h1 Listing expenses
+
+table
+  thead
+    tr
+      th Name
+      th
+      th Amount
+      th Description
+      th
+      th
+      th
+
+  tbody
+    - @friend_expenses.each do |user_expense|
+      tr 
+        td =  user_expense.user.name
+        th
+        td = user_expense.splited_amount
+        td
+        td = user_expense.expense.description
+        td
+
+br
+p = link_to "Back", root_path
+
+

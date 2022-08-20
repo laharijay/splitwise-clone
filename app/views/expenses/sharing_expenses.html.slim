@@ -1,0 +1,28 @@
+h1 Sharing Expenses
+
+table
+  thead
+    tr
+      th
+      th Amount
+      th
+      th Description
+      th 
+      th Tax Amount
+
+
+  tbody
+    - @expenses.each do |expense|
+      tr
+        td
+          span
+            | Rs
+        td = expense.amount
+        td
+        td = expense.description
+        td
+          span Rs
+        td = expense.tax_amount
+        td = link_to "View", expense
+
+        

@@ -1,0 +1,28 @@
+p#notice = notice
+
+p
+  strong Total Amount:
+  = @expense.amount
+  
+  span
+    | Rs
+p
+  strong Tax Amount:
+  = @expense.tax_amount
+  span
+    | Rs 
+p
+  strong Description:
+  = @expense.description
+- @expenses_detail.each do |expense|
+  a = expense[:name] 
+  span 
+    |     owes  
+  span
+    | Rs 
+  a = expense[:splited_amount]
+  br
+
+=> link_to "Edit", edit_expense_path(@expense)
+'|
+=< link_to "Back", sharing_expenses_path

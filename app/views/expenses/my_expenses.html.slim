@@ -1,0 +1,18 @@
+h1 My Expenses
+
+table
+  thead
+    tr
+      th Amount
+      th Description
+      th
+      th
+      th
+
+  tbody
+    - @my_expenses.each do |user_expense|
+      tr
+        td = user_expense.splited_amount
+          span
+            | Rs
+        td = user_expense.expense.description

@@ -1,0 +1,104 @@
+.dashboard-wrapper
+  aside.side-bar-area
+    .friends-list
+      p.friends-list-header FRIENDS
+      - @users.each do |p|
+        a = p.name
+        br
+  .main-area
+    .top-bar
+      h1.top-bar-title Dashboard
+      .top-bar-actions
+        button.btn.btn-primary type="button" data-bs-toggle="modal" data-bs-target="#expenseModal"  Add an expense
+        button.btn.btn-secondary type="button"  data-bs-toggle="modal" data-bs-target="#settleUpModal" Settle up
+
+    .dashboard-balances
+      .balances-bar
+        .balance-block
+          p total balance
+          span  -
+          a = @total_owe
+          span $
+        .balance-block
+          p you owe
+          p = @total_owe
+        .balance-block
+          p you are owed
+          p = @total_owed
+      .dashboard-detail
+        .detail-block
+          h2.detail-title you owe
+          - current_user.user_expenses.where(paid: false).each do |expense|
+            .user-detail
+              img.user-img alt="profile" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" /
+              .user-info
+                p = current_user.name
+                span owes you 
+                span = expense.splited_amount
+        .detail-block
+          h2.detail-title you are owed
+          - current_user.user_expenses.where(paid: true).each do |expense|
+            .user-detail
+              img.user-img alt="profile" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" /
+              .user-info
+                p = current_user.name
+                span owes you 
+                span  = expense.splited_amount
+#expenseModal.modal.fade aria-hidden="true" aria-labelledby="expenseModalLabel" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5#expenseModalLabel.modal-title Add an expense
+        button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+      .modal-body
+        = form_for Expense.new do |f|
+          = f.label :add_friends
+          = f.select :id, User.where.not(id: current_user.id).map {|user| [user.name.to_s + "(#{user.id})", user.id] }, { :prompt => "Please select"}, { multiple: true}
+ 
+          .field
+            = f.label :amount
+            br
+            = f.number_field  :amount
+            br
+            = f.label :tax_amount
+            br
+            = f.number_field  :tax_amount
+          .field
+            = f.label :description
+            br
+            = f.text_area :description
+          .actions
+            = f.button "Save changes", class: " btn btn-primary"
+      .modal-footer
+        button.btn.btn-secondary data-bs-dismiss="modal" type="button"  Close
+        / button.btn.btn-primary type="button"  Save changes
+
+#settleUpModal.modal.fade aria-hidden="true" aria-labelledby="settleUpModalLabel" tabindex="-1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5#settleUpModalLabel.modal-title All expenses
+        button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+      .modal-body
+        - total = 0
+        - @user_expenses.each do |user_expense|
+          p = current_user.name
+          span Total Expense:
+          span = user_expense.expense.amount + user_expense.expense.tax_amount
+          br
+          span Tax Amount :
+          span = user_expense.expense.tax_amount
+
+          br
+          span Sharing With : 
+          span = user_expense.expense.users.count
+          
+        
+          p = user_expense.splited_amount
+          span Your total amount is :
+          span = user_expense.splited_amount
+          - unless user_expense.paid
+            = link_to "Pay", set_payment_status_path(id: user_expense.id), method: :put, remote: true, class: 'btn btn-primary float-end'
+      .modal-footer
+        button.btn.btn-secondary data-bs-dismiss="modal" type="button"  Close
+     
