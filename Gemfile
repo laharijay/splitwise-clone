@@ -14,17 +14,20 @@ gem 'simple_form'
 gem 'slim-rails'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
-
+gem 'fabrication'
+gem 'faker'
+gem 'listen', '~> 3.3'
+gem 'rack-mini-profiler', '~> 2.0'
 group :development, :test do
   gem 'pry'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
 group :development do
-  gem 'fabrication'
-  gem 'faker'
-  gem 'listen', '~> 3.3'
-  gem 'rack-mini-profiler', '~> 2.0'
+  # gem 'fabrication'
+  # gem 'faker'
+  # gem 'listen', '~> 3.3'
+  # gem 'rack-mini-profiler', '~> 2.0'
   gem 'spring'
   gem 'web-console', '>= 4.1.0'
 end
